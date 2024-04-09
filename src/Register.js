@@ -1,9 +1,12 @@
 import React from 'react';
 import { useRef, useState, useEffect } from 'react';
+import axios from './api/axios';
 
 // Regex Statements
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+
+const REGISTER_URL = '/register';
 
 const Register = () => {
     const userRef = useRef();
@@ -32,16 +35,16 @@ const Register = () => {
 //Check for valid username
     useEffect(() => {
         const result = USER_REGEX.test(user);
-        console.log(result);
-        console.log(user);
+        /* console.log(result);
+        console.log(user); */
         setValidName(result);
     }, [user])
 
 //check for valid pwd
     useEffect(() => {
         const result = PWD_REGEX.test(pwd);
-        console.log(result);
-        console.log(pwd);
+        /* console.log(result);
+        console.log(pwd); */
         setValidPwd(result);
         const match = pwd === matchPwd;
         setValidMatch(match);
@@ -61,8 +64,31 @@ const Register = () => {
             setErrMsg("invalid entry");
             return;
         }
-        console.log(user, pwd);
+        /* console.log(user, pwd); */
         setSuccess(true);
+        try {
+            const response = await axios.post(REGISTER_URL, 
+            JSON.stringify({ user, pwd }), 
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                }
+            );
+            /* console.log(response.data);
+            console.log(response.accessToken);
+            console.log(JSON.stringify(response)); */
+            setSuccess(true);
+            // optionally clear input fields here
+        } catch (err) {
+            if (!err?.response) {
+                setErrMsg('No Server Response');
+            } else if (err.response?.status === 409) {
+                setErrMsg('Username Already Exists');
+            } else {
+                setErrMsg('Registration Failed')
+            }
+            
+        }
     }
 
   return (
