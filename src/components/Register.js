@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRef, useState, useEffect } from 'react';
-import axios from './api/axios';
+import axios from '../api/axios';
 
 // Regex Statements
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;

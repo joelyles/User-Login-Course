@@ -1,13 +1,16 @@
 import React from 'react';
 import { useRef, useState, useEffect, useContext } from 'react';
-import AuthContext from "./context/AuthProvider";
-import axios from './api/axios';
+// Auth context removed upon adding useAuth
+// import AuthContext from "../context/AuthProvider";
+import useAuth from '../hooks/useAuth';
+import axios from '../api/axios';
 
 // matches route in node.js file routes/api/auth...
 const LOGIN_URL = '/auth';
 
 const Login = () => {
-    const { setAuth } = useContext(AuthContext);
+    // const { setAuth } = useContext(AuthContext);
+    const { setAuth } = useAuth();
     const userRef = useRef();
     const errRef = useRef();
 
