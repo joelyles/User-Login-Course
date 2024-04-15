@@ -17,11 +17,22 @@ function App() {
         <Route path="register" element={<Register />} />
         <Route path="unauthorized" element={<Unauthorized />} />
        
-        <Route element={<RequireAuth />}>
+        <Route element={<RequireAuth allowedRoles={[2001]} />}>
           <Route path="/" element={<Home />} />
+        </Route>
+
+        <Route element={<RequireAuth allowedRoles={[5150]} />}>
           <Route path="admin" element={<Admin />} />
         </Route>
-        
+
+        <Route element={<RequireAuth allowedRoles={[5150]} />}>
+          
+        </Route>
+
+        <Route element={<RequireAuth allowedRoles={[1984, 5150]} />}>
+          
+        </Route>
+
         <Route path="missing" element={<Missing />} />
 
       </Route>

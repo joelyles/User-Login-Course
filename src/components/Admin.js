@@ -1,10 +1,13 @@
-import React from 'react'
+import { Link } from "react-router-dom";
+import Users from './Users';
 
 const Admin = () => {
   return (
-    <div>
-      <p>Admin Page</p>
-    </div>
+    <section>
+      <h1>Admin Page</h1>
+      <br />
+      <Users />
+    </section>
   )
 }
 

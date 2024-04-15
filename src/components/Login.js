@@ -3,6 +3,8 @@ import { useRef, useState, useEffect, useContext } from 'react';
 // Auth context removed upon adding useAuth
 // import AuthContext from "../context/AuthProvider";
 import useAuth from '../hooks/useAuth';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+
 import axios from '../api/axios';
 
 // matches route in node.js file routes/api/auth...
@@ -11,6 +13,11 @@ const LOGIN_URL = '/auth';
 const Login = () => {
     // const { setAuth } = useContext(AuthContext);
     const { setAuth } = useAuth();
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+
     const userRef = useRef();
     const errRef = useRef();
 
@@ -18,8 +25,8 @@ const Login = () => {
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
 
-    // replace with Navigate for successful login
-    const [success, setSuccess] = useState(false);
+    // replace with Navigate for successful login - removed upon adding nav from
+    // const [success, setSuccess] = useState(false);
 
     // Sets focus on the first user input when the component loads
     useEffect(() => {
@@ -49,7 +56,7 @@ const Login = () => {
             setAuth({ user, pwd, roles, accessToken });
             setUser('');
             setPwd('');
-            setSuccess(true);
+            navigate(from, { replace: true });
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('no server response')
@@ -65,16 +72,6 @@ const Login = () => {
     }
 
   return (
-    <>
-        {success ? (
-            <section>
-                <h1>success!</h1>
-                <p>
-                    {/* react router link */}
-                    <a href="#">to home</a>
-                </p>
-            </section>
-        ) : (
             <section>
             <p ref={errRef} className={errMsg ? "errmsg" : 
             "offscreen"} aria-live="assertive">{errMsg}</p>
@@ -109,9 +106,7 @@ const Login = () => {
                     </span>
             </p>
             </section>
-        )}
-    </>
-  )
+    )
 }
 
 export default Login
