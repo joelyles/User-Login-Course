@@ -7,6 +7,9 @@ const Admin = () => {
       <h1>Admin Page</h1>
       <br />
       <Users />
+      <div>
+        <Link to="/">home</Link>
+      </div>
     </section>
   )
 }
