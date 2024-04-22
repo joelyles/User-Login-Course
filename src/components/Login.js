@@ -12,7 +12,7 @@ const LOGIN_URL = '/auth';
 
 const Login = () => {
     // const { setAuth } = useContext(AuthContext);
-    const { setAuth } = useAuth();
+    const { setAuth, persist, setPersist } = useAuth();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -71,6 +71,14 @@ const Login = () => {
         }
     }
 
+    const togglePersist = () => {
+        setPersist(prev => !prev);
+    }
+
+    useEffect(() => {
+        localStorage.setItem("persist", persist);
+    }, [persist])
+
   return (
             <section>
             <p ref={errRef} className={errMsg ? "errmsg" : 
@@ -97,12 +105,21 @@ const Login = () => {
                 />
                 {/* no event handler needed when there is only 1 button */}
                 <button>Sign In</button>
+                <div>
+                    <input 
+                        type="checkbox"
+                        id="persist"
+                        onChange={togglePersist}
+                        checked={persist}
+                    />
+                    <label htmlFor="persist">Trust This Device</label>
+                </div>
             </form>
             <p>
                     Need to Register? <br />
                     <span className="line">
                         {/* router link would go here */}
-                        <a href="#">sign up</a>
+                        <Link to="/resister">Sign Up</Link>
                     </span>
             </p>
             </section>

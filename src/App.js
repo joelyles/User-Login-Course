@@ -6,6 +6,7 @@ import Home from "./components/Home";
 import Missing from "./components/Missing";
 import Admin from "./components/Admin";
 import RequireAuth from "./components/RequireAuth";
+import PersistLogin from "./components/PersistLogin";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
@@ -17,20 +18,24 @@ function App() {
         <Route path="register" element={<Register />} />
         <Route path="unauthorized" element={<Unauthorized />} />
        
-        <Route element={<RequireAuth allowedRoles={[2001]} />}>
-          <Route path="/" element={<Home />} />
-        </Route>
+        <Route element={<PersistLogin />}>
 
-        <Route element={<RequireAuth allowedRoles={[5150]} />}>
-          <Route path="admin" element={<Admin />} />
-        </Route>
-
-        <Route element={<RequireAuth allowedRoles={[5150]} />}>
+          <Route element={<RequireAuth allowedRoles={[2001]} />}>
+            <Route path="/" element={<Home />} />
+          </Route>
           
-        </Route>
+          <Route element={<RequireAuth allowedRoles={[5150]} />}>
+            <Route path="admin" element={<Admin />} />
+          </Route>
 
-        <Route element={<RequireAuth allowedRoles={[1984, 5150]} />}>
-          
+          <Route element={<RequireAuth allowedRoles={[5150]} />}>
+            
+          </Route>
+
+          <Route element={<RequireAuth allowedRoles={[1984, 5150]} />}>
+            
+          </Route>
+
         </Route>
 
         <Route path="missing" element={<Missing />} />
