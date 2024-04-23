@@ -4,6 +4,8 @@ import { useRef, useState, useEffect, useContext } from 'react';
 // import AuthContext from "../context/AuthProvider";
 import useAuth from '../hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import useLocalStorage from '../hooks/useLocalStorage';
+import useInput from '../hooks/useInput';
 
 import axios from '../api/axios';
 
@@ -21,7 +23,8 @@ const Login = () => {
     const userRef = useRef();
     const errRef = useRef();
 
-    const [user, setUser] = useState('');
+    const [user, setUser] = useLocalStorage('user', '') //useState('');
+    // const [user, resetUser, userAttributes] = useInput('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
 
@@ -55,6 +58,7 @@ const Login = () => {
             const roles = response?.data?.roles;
             setAuth({ user, pwd, roles, accessToken });
             setUser('');
+            // resetUser();
             setPwd('');
             navigate(from, { replace: true });
         } catch (err) {
@@ -93,6 +97,8 @@ const Login = () => {
                     autoComplete="off"
                     onChange={(e) => setUser(e.target.value)}
                     value={user}
+
+                    // {...userAttributes}
                     required
                 />
                 <label htmlFor="password">Password:</label>
